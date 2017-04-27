@@ -1,0 +1,25 @@
+{
+  "name": "pxxljs-gs-addon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app/code.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oshliaer/pxxljs-gs-addon.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oshliaer/pxxljs-gs-addon/issues"
+  },
+  "homepage": "https://github.com/oshliaer/pxxljs-gs-addon#readme",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "minimist": "^1.2.0",
+    "vinyl-paths": "^2.1.0"
+  }
+}

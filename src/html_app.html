@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+</head>
+
+<body>
+  <input type="text" id="text" value="Happy Birthday">
+  <input type="button" id="button">
+  <canvas></canvas>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <script src="https://rawgit.com/remcoder/Pxxl.js/master/dist/pxxl.js"></script>
+  <script>
+    function sheetDraw(pixels) {
+      google.script.run.sheetDraw(pixels);
+    }
+  </script>
+  <script>
+    <? var data = includeL('c64d.bdf'); ?>
+
+    var FONT = Pxxl.Font.ParseBDF("<?= data ?>");
+  </script>
+  <script>
+    $('#button').click(function() {
+      var pixels = $('#text').val().split(' ').map(function(t){
+        return FONT.getPixels(t);
+      });
+      sheetDraw(pixels);
+    });
+
+    $('#text').keyup(function() {
+
+      $('canvas')[0].getContext('2d').clearRect(0, 0, $('canvas')[0].width, $('canvas')[0].height);
+      this.value.split(' ').forEach(function(text) {
+        var next = drawLine(text, this);
+        console.log(this);
+        this.y = next.y;
+      }, {
+        x: 1,
+        y: 1
+      });
+    });
+
+    function drawLine(text, startPoint) {
+      var pixels = FONT.getPixels(text);
+      return draw(pixels, startPoint);
+    }
+
+    function draw(pixels, startPoint) {
+
+//      console.log(pixels);
+
+      var ctx = $('canvas')[0].getContext('2d');
+
+      var nX = startPoint.x || 1;
+      var nY = startPoint.y || 1;
+      var x_ = nX;
+      var y_ = nY;
+      for (var p = 0, hue = 100; p < pixels.length; p++) {
+        var pixel = pixels[p],
+          x = pixel.x * 3 + x_,
+          y = pixel.y * 3 + y_;
+
+        ctx.fillStyle = "hsl(" + hue + ",100%,50%)";
+        ctx.fillRect(x, y, 5, 5);
+        nX = x > nX ? x : nX;
+        nY = y > nY ? y : nY;
+      }
+      return {
+        x: nX,
+        y: nY
+      }
+    };
+  </script>
+
+</body>
+
+</html>
